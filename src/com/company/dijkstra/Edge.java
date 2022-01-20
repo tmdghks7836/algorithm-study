@@ -1,11 +1,11 @@
 package com.company.dijkstra;
 public class Edge {
 
-    int end;
+    char node;
     int weight;
 
-    public Edge(int end, int weight) {
-        this.end = end;
+    public Edge(char end, int weight) {
+        this.node = end;
         this.weight = weight;
     }
 }
