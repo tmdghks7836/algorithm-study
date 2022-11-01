@@ -1,23 +1,24 @@
-package com.company._5재귀.팩토리얼;
+package com.company._5재귀.피보나치;
 
 import java.util.Scanner;
 
 
 public class Main {
 
+    static int[] mem;
 
     public Object solution(int target) {
 
-        return recursion(target);
+        int recursion = recursion(target);
+
+        return recursion;
     }
 
-    public int recursion(int target){
+    public int recursion(int target) {
 
-        if(target <= 1) return target;
-
-        int recursion = recursion(target - 1);
-
-        return recursion * target;
+        if (mem[target] > 0) return mem[target];
+        if (target <= 2) return 1;
+        else return mem[target] = recursion(target - 1) + recursion(target - 2);
     }
 
     public static void main(String[] args) {
@@ -28,7 +29,11 @@ public class Main {
 
 
         int target = in.nextInt();
+        mem = new int[target + 1];
 
-        System.out.println(T.solution(target));
+        for (int i = 0; i <= target; i++) {
+
+            System.out.println(T.solution(i));
+        }
     }
 }

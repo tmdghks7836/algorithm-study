@@ -1,4 +1,4 @@
-package com.company._5재귀.이진수_재귀;
+package com.company._5재귀.팩토리얼;
 
 import java.util.Scanner;
 
@@ -8,17 +8,16 @@ public class Main {
 
     public Object solution(int target) {
 
-        recursion(target);
-        return "";
+        return recursion(target);
     }
 
-    public void recursion(int target){
+    public int recursion(int target){
 
-        if(target > 1 ) {
-            recursion(target - 1);
-        }
+        if(target <= 1) return target;
 
-        System.out.print(target + " ");
+        int recursion = recursion(target - 1);
+
+        return recursion * target;
     }
 
     public static void main(String[] args) {

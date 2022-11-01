@@ -2,32 +2,24 @@ package com.company._4결정알고리즘.이분검색;
 
 import java.util.*;
 
-
+/**
+ * 숫자를 재귀를 통해 이진수로 표현하기
+ */
 public class Main {
 
 
-    public Object solution(int[] arr, int target) {
+    public Object solution(int target) {
 
-        int answer = 0;
-        int lt = 0, rt = arr.length - 1;
-        Arrays.sort(arr);
+        divide(target);
+        return "";
+    }
 
-        while (true) {
+    public void divide(int num){
 
-            int mid = (rt + lt) / 2;
-            if (arr[mid] == target) {
-                answer = mid + 1;
-                break;
-            } else if (arr[mid] < target) {
-                lt = mid + 1;
-            } else {
-                rt = mid - 1;
+        if(num == 0) return;
 
-            }
-
-        }
-
-        return answer;
+        System.out.print(num % 2 + " ");
+        divide(num / 2 );
     }
 
     public static void main(String[] args) {
@@ -36,14 +28,8 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
 
-        int start = in.nextInt();
-
         int target = in.nextInt();
-        int[] arr = new int[start];
 
-        for (int i = 0; i < start; i++) {
-            arr[i] = in.nextInt();
-        }
-        System.out.println(T.solution(arr, target));
+        System.out.println(T.solution(target));
     }
 }
