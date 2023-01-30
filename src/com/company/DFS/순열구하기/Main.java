@@ -1,30 +1,36 @@
-package com.company.DFS.중복순열;
+package com.company.DFS.순열구하기;
 
 import java.util.Scanner;
-import java.util.Stack;
 
 
 public class Main {
 
     static int n, m;
     static int[] dist;
+    static int[] ch;
+    static int[] pm;
 
     public void DFS(int lev) {
 
         if (lev == m) {
-
-            for (int i : dist) {
+            for (int i : pm) {
                 System.out.print(i + " ");
             }
             System.out.println();
+            return;
         } else {
-            for (int i = 1; i <= n; i++) {
+            for (int i = 0; i < dist.length; i++) {
 
-                dist[lev] = i;
+                if(ch[i]==0){
+                    ch[i] = 1;
+                    pm[lev] =  dist[i];
+                    DFS(lev + 1);
+                    ch[i] = 0;
+                }
 
-                DFS(lev + 1);
             }
         }
+
     }
 
     public static void main(String[] args) {
@@ -34,8 +40,13 @@ public class Main {
         Scanner in = new Scanner(System.in);
         n = in.nextInt();
         m = in.nextInt();
-        dist = new int[m];
+        dist = new int[n];
+        ch = new int[n];
+        pm = new int[m];
+        for (int i = 0; i < dist.length; i++) {
 
+            dist[i] = in.nextInt();
+        }
         T.DFS(0);
     }
 }

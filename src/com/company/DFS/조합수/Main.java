@@ -1,36 +1,23 @@
-package com.company.DFS.순열구하기;
+package com.company.DFS.조합수;
 
 import java.util.Scanner;
 
 
 public class Main {
 
-    static int n, m;
-    static int[] dist;
-    static int[] ch;
-    static int[] pm;
+    static int n, r;
+    static int[][] dist;
 
-    public void DFS(int lev) {
+    public int DFS(int a, int b) {
 
-        if (lev == m) {
-            for (int i : pm) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
-            return;
-        } else {
-            for (int i = 0; i < dist.length; i++) {
+        if(a == b) return 1;
+        if(b == 0) return 1;
 
-                if(ch[i]==0){
-                    ch[i] = 1;
-                    pm[lev] =  dist[i];
-                    DFS(lev + 1);
-                    ch[i] = 0;
-                }
-
-            }
+        if(dist[a][b] == 0){
+            dist[a][b] = DFS(a - 1, b - 1) + DFS(a - 1, b);
         }
 
+        return dist[a][b];
     }
 
     public static void main(String[] args) {
@@ -39,14 +26,11 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
         n = in.nextInt();
-        m = in.nextInt();
-        dist = new int[n];
-        ch = new int[n];
-        pm = new int[m];
-        for (int i = 0; i < dist.length; i++) {
+        r = in.nextInt();
+        dist = new int[n + 1][r + 1];
 
-            dist[i] = in.nextInt();
-        }
-        T.DFS(0);
+        int dfs = T.DFS(n, r);
+
+        System.out.println(dfs);
     }
 }

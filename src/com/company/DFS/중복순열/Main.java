@@ -1,4 +1,4 @@
-package com.company.DFS.합이같은부분집합_아마존;
+package com.company.DFS.중복순열;
 
 import java.util.Scanner;
 import java.util.Stack;
@@ -6,46 +6,25 @@ import java.util.Stack;
 
 public class Main {
 
-    static int n;
-    static String yon = "NO";
-    static int half;
+    static int n, m;
     static int[] dist;
-    static Stack<Integer> stack = new Stack();
 
-    public Object solution(int i) {
+    public void DFS(int lev) {
 
+        if (lev == m) {
 
-        DFS(i, dist[i]);
-
-        return yon;
-    }
-
-    public void DFS(int L, int sum) {
-
-//        System.out.print(L + ",");
-//        System.out.print(sum + " ");
-        if (sum == half - sum) {
-
-            for (Integer integer : stack) {
-//                System.out.print(integer + " ");
+            for (int i : dist) {
+                System.out.print(i + " ");
             }
-            yon = "YES";
-            return;
-//            System.out.println("찾았다");
-        }
-
-        int next = L + 1;
-
-        if (sum < half && next < dist.length) {
-
-            stack.add(dist[next]);
-            DFS(next, sum + dist[next]); //사용한다
-            stack.pop();
-            DFS(next, sum); //사용 안한다
+            System.out.println();
         } else {
-//            System.out.println();
-        }
+            for (int i = 1; i <= n; i++) {
 
+                dist[lev] = i;
+
+                DFS(lev + 1);
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -53,17 +32,10 @@ public class Main {
         Main T = new Main();
 
         Scanner in = new Scanner(System.in);
-        int num = in.nextInt();
-        dist = new int[num];
-        for (int i = 0; i < num; i++) {
-            dist[i] = in.nextInt();
-        }
-        for (int i : dist) {
-            half += i;
-        }
+        n = in.nextInt();
+        m = in.nextInt();
+        dist = new int[m];
 
-        n = num;
-        stack.add(dist[0]);
-        System.out.println(T.solution(0));
+        T.DFS(0);
     }
 }

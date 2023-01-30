@@ -1,24 +1,26 @@
-package com.company._5재귀.피보나치;
+package com.company.DFS.동전교환;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 
 public class Main {
 
-    static int[] mem;
+    static int n, m, answer = Integer.MAX_VALUE;
 
-    public Object solution(int target) {
+    public void DFS(int L, int sum, Integer[] arr) {
 
-        int recursion = recursion(target);
+        if(answer <= L) return;
+        if (sum > m) return;
+        if (sum == m) {
 
-        return recursion;
-    }
-
-    public int recursion(int target) {
-
-        if (mem[target] > 0) return mem[target];
-        if (target <= 2) return 1;
-        else return mem[target] = recursion(target - 1) + recursion(target - 2);
+            answer = Math.min(answer, L);
+        } else {
+            for (int i = 0; i < n; i++) {
+                DFS(L + 1, arr[i] + sum, arr);
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -28,12 +30,18 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
 
-        int target = in.nextInt();
-        mem = new int[target + 1];
+        n = in.nextInt();
 
-        for (int i = 0; i <= target; i++) {
+        Integer[] dist = new Integer[n];
 
-            System.out.println(T.solution(i));
+        for (int i = 0; i < n; i++) {
+
+            dist[i] = in.nextInt();
         }
+        Arrays.sort(dist, Collections.reverseOrder());
+        m = in.nextInt();
+        T.DFS(0, 0, dist);
+
+        System.out.println(answer);
     }
 }
