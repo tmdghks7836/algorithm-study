@@ -1,4 +1,4 @@
-package com.company.프로그래머스.etc.조이스틱;
+package com.company.프로그래머스.그리디.조이스틱;
 
 
 public class Solution {
