@@ -1,37 +1,57 @@
 
-package com.company.프로그래머스.동적계획법.정수삼각형;
+package com.company.프로그래머스.동적계획법.N으로표현;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.HashSet;
+import java.util.Set;
 
 class Solution {
 
-    public int solution(int[][] triangle) {
+    static int answer = -1;
 
-        for (int i = 1; i < triangle.length; i++) {
+    public static int solution(int N, int number) {
+        Set<Integer>[] set = new HashSet[9];
+        int n = 0;
 
-            triangle[i][0] = triangle[i - 1][0] + triangle[i][0];
-            triangle[i][triangle[i].length - 1] = triangle[i - 1][triangle[i - 1].length - 1] + triangle[i][triangle[i].length - 1];
+        for (int i = 1; i < set.length; i++) {
 
-            for (int j = 1; j < triangle[i].length - 1; j++) {
+            n = (n * 10) + N;
+            set[i] = new HashSet<>();
+            set[i].add(n);
+        }
 
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < i; j++) {
+                for (Integer a : set[j]) {
+                    for (Integer b : set[i - j]) {
 
-                triangle[i][j] = Math.max(triangle[i - 1][j - 1] + triangle[i][j], triangle[i - 1][j] + triangle[i][j]);
+                        set[i].add(a + b);
+                        set[i].add(a - b);
+                        set[i].add(a * b);
 
+                        if(b != 0)
+                        set[i].add(a / b);
 
+                        if(a != 0)
+                            set[i].add(b / a);
+                    }
+                }
+            }
+
+            if (set[i].contains(number)) {
+
+                return i;
             }
         }
 
-        int asInt = Arrays.stream(triangle[triangle.length - 1]).max().getAsInt();
-        return asInt;
+
+        return -1;
     }
 
     public static void main(String[] args) {
 
         Solution T = new Solution();
 
-        System.out.println(T.solution(new int[][]{{7}, {3, 8}, {8, 1, 0}, {2, 7, 4, 4}, {4, 5, 2, 6, 5}}));
+        System.out.println(T.solution(5, 12));
     }
 
 }

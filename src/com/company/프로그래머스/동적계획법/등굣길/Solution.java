@@ -1,37 +1,41 @@
 
-package com.company.프로그래머스.동적계획법.정수삼각형;
+package com.company.프로그래머스.동적계획법.등굣길;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
 
 class Solution {
 
-    public int solution(int[][] triangle) {
+    public int solution(int m, int n, int[][] puddles) {
 
-        for (int i = 1; i < triangle.length; i++) {
+        int[][] arr = new int[n + 1][m + 1];
 
-            triangle[i][0] = triangle[i - 1][0] + triangle[i][0];
-            triangle[i][triangle[i].length - 1] = triangle[i - 1][triangle[i - 1].length - 1] + triangle[i][triangle[i].length - 1];
+        arr[1][1] = 1;
 
-            for (int j = 1; j < triangle[i].length - 1; j++) {
+        for (int i = 0; i < puddles.length; i++) {
 
+            arr[puddles[i][1]][puddles[i][0]] = -1;
+        }
 
-                triangle[i][j] = Math.max(triangle[i - 1][j - 1] + triangle[i][j], triangle[i - 1][j] + triangle[i][j]);
+        for (int i = 1; i < arr.length; i++) {
 
+            for (int j = 1; j < arr[i].length; j++) {
 
+                if (arr[i][j] == -1) continue;
+                if (i == 1 && j == 1) continue;
+
+                int up = arr[i - 1][j] == -1 ? 0 : arr[i - 1][j];
+                int left = arr[i][j - 1] == -1 ? 0 : arr[i][j - 1];
+                arr[i][j] = (up % 1000000007) + (left % 1000000007);
             }
         }
 
-        int asInt = Arrays.stream(triangle[triangle.length - 1]).max().getAsInt();
-        return asInt;
+        return arr[n][m] % 1000000007;
     }
 
     public static void main(String[] args) {
 
         Solution T = new Solution();
 
-        System.out.println(T.solution(new int[][]{{7}, {3, 8}, {8, 1, 0}, {2, 7, 4, 4}, {4, 5, 2, 6, 5}}));
+        System.out.println(T.solution(4, 3, new int[][]{{2, 2}}));
     }
 
 }

@@ -1,41 +1,45 @@
 
-package com.company.프로그래머스.동적계획법.등굣길;
+package com.company.프로그래머스.동적계획법.도둑질;
 
 
 class Solution {
 
-    public int solution(int m, int n, int[][] puddles) {
+    public int solution(int[] money) {
 
-        int[][] arr = new int[n + 1][m + 1];
+        int[] clone = money.clone();
+        int[] clone2 = money.clone();
 
-        arr[1][1] = 1;
+        clone[0] = 0;
+        clone[2] = Math.max(money[2], money[1]);
+        clone2[money.length - 1] = 0;
+        clone2[1] = Math.max(money[0], money[1]);
+        clone2[2] = Math.max(money[0] + money[2], money[1]);
 
-        for (int i = 0; i < puddles.length; i++) {
+        for (int i = 3; i < money.length; i++) {
 
-            arr[puddles[i][1]][puddles[i][0]] = -1;
+            int i1 = clone[i];
+            int i2 = clone[i - 2];
+            clone[i] = i1 + i2;
+            clone[i] = Math.max(i1 + i2, clone[i -1]);
         }
 
-        for (int i = 1; i < arr.length; i++) {
+        for (int i = 3; i < money.length; i++) {
 
-            for (int j = 1; j < arr[i].length; j++) {
-
-                if (arr[i][j] == -1) continue;
-                if (i == 1 && j == 1) continue;
-
-                int up = arr[i - 1][j] == -1 ? 0 : arr[i - 1][j];
-                int left = arr[i][j - 1] == -1 ? 0 : arr[i][j - 1];
-                arr[i][j] = (up % 1000000007) + (left % 1000000007);
-            }
+            int i1 = clone2[i];
+            int i2 = clone2[i - 2];
+            clone2[i] = Math.max(i1 + i2, clone2[i -1]);
         }
+        int num = Math.max(clone[money.length - 1], clone[money.length - 2]);
+        int num2 = Math.max(clone2[money.length - 1], clone2[money.length - 2]);
 
-        return arr[n][m] % 1000000007;
+        return Math.max(num, num2);
     }
 
     public static void main(String[] args) {
 
         Solution T = new Solution();
 
-        System.out.println(T.solution(4, 3, new int[][]{{2, 2}}));
+        System.out.println(T.solution(new int[]{1, 10, 100, 1, 10000, 100000, 1, 1000, 100000, 10}));
     }
 
 }

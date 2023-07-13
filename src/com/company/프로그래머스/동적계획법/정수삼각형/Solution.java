@@ -1,41 +1,37 @@
 
-package com.company.프로그래머스.그리디.프린터;
+package com.company.프로그래머스.동적계획법.정수삼각형;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 class Solution {
-    public int solution(int[] priorities, int location) {
 
-        PriorityQueue<Integer> queue = new PriorityQueue(Comparator.reverseOrder());
+    public int solution(int[][] triangle) {
 
-        for (int priority : priorities) {
-            queue.add(priority);
-        }
+        for (int i = 1; i < triangle.length; i++) {
 
-        int order = 0;
-        while (!queue.isEmpty()) {
+            triangle[i][0] = triangle[i - 1][0] + triangle[i][0];
+            triangle[i][triangle[i].length - 1] = triangle[i - 1][triangle[i - 1].length - 1] + triangle[i][triangle[i].length - 1];
 
-            for (int i = 0; i < priorities.length; i++) {
+            for (int j = 1; j < triangle[i].length - 1; j++) {
 
-                if (queue.peek() == priorities[i]) {
 
-                    if(i == location){
-                        return ++order;
-                    }
-                    queue.poll();
-                    order++;
-                }
+                triangle[i][j] = Math.max(triangle[i - 1][j - 1] + triangle[i][j], triangle[i - 1][j] + triangle[i][j]);
+
+
             }
         }
 
-        return -1;
+        int asInt = Arrays.stream(triangle[triangle.length - 1]).max().getAsInt();
+        return asInt;
     }
 
     public static void main(String[] args) {
 
         Solution T = new Solution();
 
-        System.out.println(T.solution(new int[]{1, 1, 9, 1, 1, 1}, 0));
+        System.out.println(T.solution(new int[][]{{7}, {3, 8}, {8, 1, 0}, {2, 7, 4, 4}, {4, 5, 2, 6, 5}}));
     }
 
 }
