@@ -39,7 +39,7 @@ class 숲속의기사 {
          * */
 
         //산딸기 위치 저장
-        List<Pos> stroberryList = new ArrayList<>();
+        List<Pos> strawberryList = new ArrayList<>();
 
         for (int i = 0; i < board.length; i++) {
 
@@ -47,12 +47,12 @@ class 숲속의기사 {
 
                 if (board[i][j] == 4) {
 
-                    stroberryList.add(new Pos(j, i));
+                    strawberryList.add(new Pos(j, i));
                 }
             }
         }
 
-        for (Pos pos : stroberryList) {
+        for (Pos pos : strawberryList) {
 
             //* 2. 영희의 시작위치
             int count1 = BFS(pos.y, pos.x, board, 2);
