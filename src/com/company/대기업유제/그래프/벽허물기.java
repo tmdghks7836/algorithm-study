@@ -1,9 +1,6 @@
 package com.company.대기업유제.그래프;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 class 벽허물기 {
     public int solution(int[][] board) {
@@ -25,32 +22,23 @@ class 벽허물기 {
         int[] dy = {-1, 0, 0, 1};
         boolean[][] ch = new boolean[board.length][board[0].length];
 
-        Queue<Pos> queue = new ArrayDeque<>();
+        PriorityQueue<Pos> queue = new PriorityQueue<>();
         ch[0][0] = true;
-        Queue<Pos> best = new ArrayDeque<>();
-        best.add(new Pos(0, 0));
-        queue.add(new Pos(0, 0));
-
-        int cnt = 0;
-
+        queue.add(new Pos(0, 0,0));
 
         print(board);
         while (true) {
 
             int size = queue.size();
 
-            List<Pos> walls = new ArrayList<>();
-
             for (int i = 0; i < size; i++) {
 
                 Pos pos = queue.poll();
 
-                best.add(pos);
-
                 //도착했다면 끝
                 if (pos.y == board.length - 1 && pos.x == board[0].length - 1) {
                     print(board);
-                    return cnt;
+                    return board[pos.y][pos.x];
                 }
 
                 for (int j = 0; j < 4; j++) {
@@ -59,47 +47,18 @@ class 벽허물기 {
                     int moveY = dy[j] + pos.y;
 
                     if (moveX < 0 || moveY < 0 || moveX == board[0].length || moveY == board.length) continue;
+
                     if (ch[moveY][moveX]) continue;
 
-                    /**
-                     * 		 * 0 : 통로
-                     * 		 * 1: 벽
-                     * 		 위 왼쪽 오른쪽 아래 순서로 돌게끔. 벽을 목적지와 가까운곳으로 저장하기위해.
-                     * */
-                    if (board[moveY][moveX] == 1) {
-                        walls.add(new Pos(moveX, moveY));
-                        continue;
-                    }
+                    board[moveY][moveX] = board[moveY][moveX] + board[pos.y][pos.x];
+
                     ch[moveY][moveX] = true;
-
-                    queue.add(new Pos(moveX, moveY));
+                    queue.add(new Pos(moveX, moveY, board[moveY][moveX]));
                 }
 
 
-            }
-
-            if (queue.isEmpty()) {
-
-                for (Pos pos : best) {
-
-                    for (int j = 0; j <= 3; j++) {
-
-                        int moveX = dx[j] + pos.x;
-                        int moveY = dy[j] + pos.y;
-
-                        if (moveX < 0 || moveY < 0 || moveX == board[0].length || moveY == board.length) continue;
-                        if (board[moveY][moveX] != 1) continue;
-                        ch[moveY][moveX] = true;
-                        board[moveY][moveX] = 0;
-                        queue.add(new Pos(moveX, moveY));
-                    }
-                }
-
-                cnt++;
             }
         }
-
-
     }
 
     private static void print(int[][] board) {
@@ -114,14 +73,22 @@ class 벽허물기 {
 //        }
     }
 
-    class Pos {
+    class Pos implements Comparable<Pos> {
 
         int x;
         int y;
 
-        public Pos(int x, int y) {
+        int price;
+
+        public Pos(int x, int y, int price) {
             this.x = x;
             this.y = y;
+            this.price = price;
+        }
+
+        @Override
+        public int compareTo(Pos o) {
+            return this.price - o.price;
         }
     }
 
